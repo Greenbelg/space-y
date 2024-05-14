@@ -1,6 +1,7 @@
 import * as path from "path";
 import fs from "fs";
 import express from "express";
+import * as https from "https";
 
 const rootDir = process.cwd();
 const port = 3000;
@@ -16,10 +17,23 @@ app.get("/client.mjs", (_, res) => {
   });
 });
 
-// Обработчик для неизвестных адресов
 app.get("*", (_, res) => {
   res.sendFile(path.resolve(rootDir, "spa/build", "index.html"));
 });
+
+https
+  .createServer(
+    {
+      key: fs.readFileSync("certs/server.key"),
+      cert: fs.readFileSync("certs/server.cert"),
+    },
+    app
+  )
+  .listen(2000, function () {
+    console.log(
+      "Example app listening on port 2000! Go to https://localhost:2000/"
+    );
+  });
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
