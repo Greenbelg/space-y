@@ -61,7 +61,25 @@ export class Client {
    * @return {Promise<About>}
    * */
   async getInfo() {
-    throw new Error("Not implemented");
+    const response = await fetch('https://api.spacexdata.com/v4/company');
+    const info = await response.json();
+
+    const company = {
+      founder: info.founder,
+      founded: info.founded,
+      employees: info.employees,
+      ceo: info.ceo,
+      coo: info.coo,
+      cto: info.cto,
+      valuation: info.valuation,
+      headquarters: {        
+        address: info.headquarters.address,
+        city: info.headquarters.city,
+        state: info.headquarters.state,
+      },
+      summary: info.summary
+    };
+    return company;
   }
 
   /**
@@ -74,7 +92,17 @@ export class Client {
    * @return {Promise<EventBrief[]>}
    * */
   async getHistory() {
-    throw new Error("Not implemented");
+    const response = await fetch('https://api.spacexdata.com/v4/history');
+    const info = await response.json();
+    const res = [];
+    for (const element of info){
+      const company = {
+        id: element.id,
+        title: element.title
+      };
+      res.push(company);
+    }
+    return res;
   }
 
   /**
@@ -91,7 +119,20 @@ export class Client {
    * @return {Promise<EventFull>}
    * */
   async getHistoryEvent(id) {
-    throw new Error("Not implemented");
+    const response = await fetch(`https://api.spacexdata.com/v3/history/${id}`);
+    const info = await response.json();
+    const company = {
+      id: info.id,
+      title: info.title,
+      event_date_utc: info.event_date_utc,
+      details: info.details,
+      links: {
+        reddit: info.links.reddit,
+        article: info.links.article,
+        wikipedia: info.links.wikipedia
+      }
+    };
+    return company;
   }
 
   /**
@@ -104,7 +145,17 @@ export class Client {
    * @return {Promise<RocketBrief[]>}
    * */
   async getRockets() {
-    throw new Error("Not implemented");
+    const response = await fetch('https://api.spacexdata.com/v4/history');
+    const info = await response.json();
+    const res = [];
+    for (const element of info){
+      const company = {
+        id: element.id,
+        title: element.title
+      };
+      res.push(company);
+    }
+    return res;
   }
 
   /**

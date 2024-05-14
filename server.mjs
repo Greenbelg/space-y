@@ -30,7 +30,6 @@ app.get("*", (req, res) => {
     res.json({user: user || null});
 });
 
-
 function validation(request, response, next) {
     const user = request.cookies["logged"];
 
